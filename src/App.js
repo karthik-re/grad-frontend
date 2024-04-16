@@ -1,25 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import HomePage from "./Pages/HomePage";
+import AboutPage from "./Pages/AboutPage";
+import JobsPage from "./Pages/JobsPage";
+import LoginPage, { action as loginAction } from "./Pages/LoginPage";
+import Root from "./Pages/Root";
+import RegisterPage from "./Pages/RegisterPage";
+import ProfilePage, { loader as profileLoader } from "./Pages/ProfilePage";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const router = createBrowserRouter([
+  //similar to controller in spring boot
+  {
+    path: "/",
+    id: "root",
+    element: <Root />,
+    error: <h1>404 Not Found</h1>,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+      {
+        path: "about",
+        element: <AboutPage />,
+      },
+      {
+        path: "jobs",
+        element: <JobsPage />,
+      },
+      {
+        path: "login",
+        element: <LoginPage />,
+        action: loginAction,
+      },
+      {
+        path: "register",
+        element: <RegisterPage />,
+      },
+      {
+        path: "profile",
+        element: <ProfilePage />,
+        loader: profileLoader,
+      },
+    ],
+  },
+]);
+
+const App = () => {
+  return <RouterProvider router={router} />;
+};
 
 export default App;
